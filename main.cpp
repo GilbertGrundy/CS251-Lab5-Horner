@@ -4,14 +4,8 @@ Assignment: Lab #5
 */
 
 #include <iostream>
-#include <fstream>
-#include <cstring>
-#include <time.h>
 #include <stdlib.h>
-#include <ctime>
 #include <chrono>
-#include <ratio>
-//#include<sys/time.h>
 
 const int MAX = 21;
 
@@ -31,10 +25,6 @@ int main()
 	double result;
 	float x;
 	int total_time;
-	steady_clock::time_point start;
-	steady_clock::time_point finish;
-//	struct timeval start; //start time of algorithm
-//    	struct timeval finish; //finish time of algorithm
 
 	cout << "Gilbert Grundy CS251 Lab #5.\n\n";
 
@@ -45,19 +35,12 @@ int main()
 
 	while(degree < MAX)
 	{
-		display_poly(degree, coefficients, x);
-		
+		display_poly(degree, coefficients, x);		
 		
 		result = horner_alg(degree, coefficients, x);
 		
-		
-		 //compute time
-  //          	total_time += (finish.tv_sec - start.tv_sec)*1000;
-    //        	total_time += (finish.tv_usec - start.tv_usec);
-		
-		cout << "Horner: " << total_time << "seconds\n";
-		result = straight_alg(degree, coefficients, x);
-		cout << "Non-Horner Result: " << result << "\n";
+		straight_alg(degree, coefficients, x);
+
 		cout << "P(x) = " << result << "\n";
 		cout << "\n";
 		degree++;
@@ -106,10 +89,8 @@ void display_poly(int degree, int * coefficients, float x)
 
 double horner_alg(int degree, int * coefficients, float x)
 {
-
-	//get start time
-  //     	gettimeofday(&start, NULL);
-
+	using namespace std::chrono;	
+ 	steady_clock::time_point start = steady_clock::now();
 
 	double result = coefficients[degree];
 
@@ -119,9 +100,10 @@ double horner_alg(int degree, int * coefficients, float x)
 		result += coefficients[i];
 	}
 
+  	steady_clock::time_point finish = steady_clock::now();
+  	duration<double> time_span = duration_cast<duration<double>>(finish - start);
 
-	//record finish time
-    //  	gettimeofday(&finish, NULL);
+  	std::cout << "Horner " << time_span.count() << " seconds.\n";
 
 	return result;
 }
@@ -129,6 +111,9 @@ double horner_alg(int degree, int * coefficients, float x)
 
 double straight_alg(int degree, int * coefficients, float x)
 {
+	using namespace std::chrono;	
+ 	steady_clock::time_point start = steady_clock::now();
+
 	double result = 0;
 	double value = x;
 
@@ -144,5 +129,11 @@ double straight_alg(int degree, int * coefficients, float x)
 	}
 
 	result += (coefficients[0]*1);
+
+  	steady_clock::time_point finish = steady_clock::now();
+  	duration<double> time_span = duration_cast<duration<double>>(finish - start);
+
+  	std::cout << "Not Horner " << time_span.count() << " seconds.\n";
+
 	return result;
 }
