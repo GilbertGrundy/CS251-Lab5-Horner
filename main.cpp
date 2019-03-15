@@ -6,10 +6,11 @@ Assignment: Lab #5
 #include <iostream>
 #include <fstream>
 #include <cstring>
+#include <chrono>
 
 int main()
 {
-  cout << "Gilbert Grundy CS251 Lab #4.\n";
+	cout << "Gilbert Grundy CS251 Lab #5.\n";
 
-  return 0;
+	return 0;
 }
