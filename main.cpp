@@ -8,7 +8,10 @@ Assignment: Lab #5
 #include <cstring>
 #include <time.h>
 #include <stdlib.h>
+#include <ctime>
 #include <chrono>
+#include <ratio>
+//#include<sys/time.h>
 
 const int MAX = 21;
 
@@ -27,9 +30,11 @@ int main()
 	int degree = 1;
 	double result;
 	float x;
-	float total_time;
-	struct timeval start; //start time of algorithm
-    	struct timeval finish; //finish time of algorithm
+	int total_time;
+	steady_clock::time_point start;
+	steady_clock::time_point finish;
+//	struct timeval start; //start time of algorithm
+//    	struct timeval finish; //finish time of algorithm
 
 	cout << "Gilbert Grundy CS251 Lab #5.\n\n";
 
@@ -42,17 +47,13 @@ int main()
 	{
 		display_poly(degree, coefficients, x);
 		
-		//get start time
-        	gettimeofday(&start, NULL)
 		
 		result = horner_alg(degree, coefficients, x);
 		
-		//record finish time
-            	gettimeofday(&finish, NULL);
 		
 		 //compute time
-            	total_time += (finish.tv_sec - start.tv_sec);
-            	total_time += (finish.tv_usec - start.tv_usec)/1000;
+  //          	total_time += (finish.tv_sec - start.tv_sec)*1000;
+    //        	total_time += (finish.tv_usec - start.tv_usec);
 		
 		cout << "Horner: " << total_time << "seconds\n";
 		result = straight_alg(degree, coefficients, x);
@@ -105,6 +106,11 @@ void display_poly(int degree, int * coefficients, float x)
 
 double horner_alg(int degree, int * coefficients, float x)
 {
+
+	//get start time
+  //     	gettimeofday(&start, NULL);
+
+
 	double result = coefficients[degree];
 
 	for(int i = (degree - 1); i >= 0; i--)
@@ -112,6 +118,10 @@ double horner_alg(int degree, int * coefficients, float x)
 		result = result*x;
 		result += coefficients[i];
 	}
+
+
+	//record finish time
+    //  	gettimeofday(&finish, NULL);
 
 	return result;
 }
