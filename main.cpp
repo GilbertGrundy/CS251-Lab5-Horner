@@ -27,7 +27,9 @@ int main()
 	int degree = 1;
 	double result;
 	float x;
-
+	float total_time;
+	struct timeval start; //start time of algorithm
+    	struct timeval finish; //finish time of algorithm
 
 	cout << "Gilbert Grundy CS251 Lab #5.\n\n";
 
@@ -39,8 +41,20 @@ int main()
 	while(degree < MAX)
 	{
 		display_poly(degree, coefficients, x);
+		
+		//get start time
+        	gettimeofday(&start, NULL)
+		
 		result = horner_alg(degree, coefficients, x);
-		cout << "Horner Result: " << result << "\n";
+		
+		//record finish time
+            	gettimeofday(&finish, NULL);
+		
+		 //compute time
+            	total_time += (finish.tv_sec - start.tv_sec);
+            	total_time += (finish.tv_usec - start.tv_usec)/1000;
+		
+		cout << "Horner: " << total_time << "seconds\n";
 		result = straight_alg(degree, coefficients, x);
 		cout << "Non-Horner Result: " << result << "\n";
 		cout << "P(x) = " << result << "\n";
